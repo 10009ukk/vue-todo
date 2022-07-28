@@ -1,34 +1,54 @@
 <template lang="">
-  <input
-        :type="type"
-        :placeholder="placeholder"
-        :value="value"
-
-        @input="onInput"
-  />
+    <form @submit.prevent="onSubmit">
+        <todo-input-item :value='text' @change="onChange"></todo-input-item>
+    </form>
 </template>
+
 <script>
+import TodoInputItem from '@/components/form/TodoInputItem.vue'
+
 export default {
-  name: "todo-input",
-  props: {
-    type: {
-      type: String,
-      default: "",
+    name: 'todo-submit',
+    components: {
+        TodoInputItem,
     },
-    placeholder: {
-      type: String,
-      default: "",
+    props: {
+        type: {
+            type: String,
+            default: 'todosPush'
+        }
     },
-    value: {
-      type: String,
-      default: "",
+    data() {
+        return {
+            text: '',
+        }
     },
-  },
-  methods: {
-    onInput: function ($event) {
-      this.$emit("change", $event.target.value);
+    methods: {
+        onChange(emit) {
+            if (typeof emit !== 'string')
+                return
+
+            this.text = emit
+        },
+        onSubmit() {
+            if (!this.text) {
+                return
+            }
+            
+            // type = 'todosPush'
+            console.log(this.type)
+            this.$store.commit(this.type, {
+                title: this.text,
+                isChecked: false,  
+                key: new Date(),
+            })
+
+            this.text = ''
+        }
     },
-  },
-};
+
+}
 </script>
-<style lang=""></style>
+<style lang="">
+    
+</style>

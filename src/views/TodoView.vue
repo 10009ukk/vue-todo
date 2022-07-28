@@ -1,13 +1,25 @@
 <template lang="">
     <index-layout>
+        
+        <div>
+            <h1>What is main your focus for today?</h1>
+            <todo-input 
+                v-if='Object.keys(item).length === 0' 
+                type='focusAll'
+            />
+            <todo-list-item 
+                v-else
+                :item="item"
+                pop="focusPop"
+                change="focusAll"
+            />
+        </div>
+        <hr />
         <div>
             <todo-list :items="items" />
         </div>
-
-        <form @submit.prevent="onSubmit">
-            <todo-input :value='text' @change="onChange"></todo-input>
-            <button>등록</button> 
-        </form>
+        <hr />
+        <todo-input />
     </index-layout>
 </template>
 
@@ -15,44 +27,26 @@
 import IndexLayout from '@/layouts/index.vue'
 import TodoInput from '@/components/form/TodoInput.vue'
 import TodoList from '@/components/list/TodoList.vue'
+import TodoListItem from '@/components/list/TodoListItem.vue'
+
 export default {
     name: 'todo-view',
     components: {
         IndexLayout,
         TodoInput,
-        TodoList
-    },
-    data() {
-        return {
-            text: '',
-        }
+        TodoList,
+        TodoListItem
     },
     computed: {
         items() {
             return this.$store.getters.todosGet
+        },
+        item() {
+            return this.$store.getters.focusGet
         }
     },
     methods: {
-        onChange(emit) {
-            if (typeof emit !== 'string')
-                return
-
-            this.text = emit
-        },
-        onSubmit() {
-            const text = this.text
-            if (!text) {
-                return
-            }
-            
-            this.$store.commit('todosPush', {
-                title: text,
-                isChecked: false,  
-                key: new Date(),
-            })
-
-            this.text = ''
-        }
+       
     },
 
 }

@@ -5,7 +5,7 @@
             @toggle='onToggle' 
             :checked="item.isChecked"
         />
-        <todo-input 
+        <todo-input-item 
             class="input"
             :class='{ complete: item.isChecked }' 
             :value="item.title"
@@ -22,15 +22,16 @@
     </div>    
 </template>
 <script>
-import TodoCheck from '../form/TodoCheck.vue'
-import TodoInput from '../form/TodoInput.vue'
-import TodoButton from '../form/TodoButton.vue'
+import TodoCheck from '../button/TodoCheck.vue'
+import TodoButton from '../button/TodoButton.vue'
+import TodoInputItem from '../form/TodoInputItem.vue'
+
 
 export default {
     
     name: 'todo-list-item',
     components: {        
-        TodoInput,
+        TodoInputItem,
         TodoButton,
         TodoCheck,
     },
@@ -42,6 +43,14 @@ export default {
     props: {
         item: {
             type: Object
+        },
+        pop: {
+            type: String,
+            default: 'todosPop'
+        },
+        change: {
+            type: String,
+            default: 'todosChange'
         }
     }, 
     methods: {
@@ -49,14 +58,16 @@ export default {
             if (typeof emit !== 'string')
                 return
 
+
             this.text = emit
+            console.log(this.text)
         },
 
         onDelete() {
-            this.$store.commit('todosPop', this.item.key)
+            this.$store.commit(this.pop, this.item)
         },
         onReset() {
-            this.$store.commit('todosChange', {
+            this.$store.commit(this.change, {
                 title: this.text,
                 key: this.item.key      
             })
@@ -64,7 +75,7 @@ export default {
         onToggle(emit) {
             this.item.isChecked = emit
             
-            this.$store.commit('todosChange', {
+            this.$store.commit(this.change, {
                 isChecked: emit,
                 key: this.item.key      
             })

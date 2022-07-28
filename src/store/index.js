@@ -5,6 +5,7 @@ export default createStore({
     // 2개 저장, today, inbox
     // ex) type: 'today'
     type: 'today',
+    focus: {},
     todos: []
   },
   getters: {
@@ -14,7 +15,15 @@ export default createStore({
         state.todos = items[0]
       }
       return state.todos
-    }
+    },
+    
+    focusGet(state) {
+      const items = JSON.parse(localStorage.getItem('focus'))
+      if (items != null) {
+        state.focus = items[0]
+      }      
+      return state.focus
+    },
   },
   mutations: {
     todosPush: function (state, payload) {
@@ -23,7 +32,7 @@ export default createStore({
     },
     todosPop: function (state, payload) {
       state.todos = state.todos.filter(todo => {
-        return todo.key !== payload
+        return todo.key !== payload.key
       })
       localStorage.setItem(state.type, JSON.stringify([state.todos]))
     },
@@ -40,6 +49,20 @@ export default createStore({
       })
       localStorage.setItem(state.type, JSON.stringify([state.todos]))
     },
+
+    focusAll: function (state, payload) {
+      state.focus = {
+        title: payload.title ? payload.title : state.focus.title,
+        isChecked: payload.isChecked ? payload.isChecked : state.focus.isChecked,
+        key: state.focus.key,
+      }
+      localStorage.setItem('focus', JSON.stringify([state.focus]))
+    },
+    focusPop: function (state) {
+      state.focus = {}
+      localStorage.setItem('focus', JSON.stringify([state.focus]))
+    },
+    
   },
   actions: {
   },
