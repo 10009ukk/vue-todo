@@ -14,7 +14,7 @@
 <script>
 import IndexLayout from '@/layouts/index.vue'
 import TodoInput from '@/components/form/TodoInput.vue'
-import TodoList from '@/components/List/TodoList.vue'
+import TodoList from '@/components/list/TodoList.vue'
 export default {
     name: 'todo-view',
     components: {

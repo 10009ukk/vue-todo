@@ -4,32 +4,28 @@ export default createStore({
   state: {
     // 2개 저장, today, inbox
     // ex) type: 'today'
-    todos: [
-      {
-        title: 'youbin list',
-        isComplete: false,
-        key: 1
-      },
-      {
-        title: 'list youbin',
-        isComplete: false,
-        key: 2
-      }
-    ]
+    type: 'today',
+    todos: []
   },
   getters: {
     todosGet(state) {
+      const items = JSON.parse(localStorage.getItem(state.type))
+      if (items != null) {
+        state.todos = items[0]
+      }
       return state.todos
     }
   },
   mutations: {
     todosPush: function (state, payload) {
       state.todos.push(payload)
+      localStorage.setItem(state.type, JSON.stringify([state.todos]))
     },
     todosPop: function (state, payload) {
-      state.todos = state.toDos.filter(todo => {
+      state.todos = state.todos.filter(todo => {
         return todo.key !== payload
       })
+      localStorage.setItem(state.type, JSON.stringify([state.todos]))
     },
     todosChange: function (state, payload) {
       state.todos = state.todos.map(todo => {
@@ -42,10 +38,8 @@ export default createStore({
         }
         return todo
       })
-      console.log(state.todos)
-    }
-
-    //set localstroge('type' ...)
+      localStorage.setItem(state.type, JSON.stringify([state.todos]))
+    },
   },
   actions: {
   },

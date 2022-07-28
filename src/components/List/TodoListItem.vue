@@ -1,27 +1,31 @@
 <template lang="">
-    <todo-hover @hover="onHover">
+    <div>
         {{ item }}
         <todo-check  
             @toggle='onToggle' 
+            :checked="item.isChecked"
         />
         <todo-input 
             class="input"
             :class='{ complete: item.isChecked }' 
-            :value="item.title" 
+            :value="item.title"
+            
             @change='onChange' 
+            @keyup.enter="onReset"
         />
         <todo-button 
-            v-if="isHover"
-            viewBox='0 0 384 512'
-            d='M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z'        
+            viewBox='0 0 576 512'
+            d='M576 384C576 419.3 547.3 448 512 448H205.3C188.3 448 172 441.3 160 429.3L9.372 278.6C3.371 272.6 0 264.5 0 256C0 247.5 3.372 239.4 9.372 233.4L160 82.75C172 70.74 188.3 64 205.3 64H512C547.3 64 576 92.65 576 128V384zM271 208.1L318.1 256L271 303C261.7 312.4 261.7 327.6 271 336.1C280.4 346.3 295.6 346.3 304.1 336.1L352 289.9L399 336.1C408.4 346.3 423.6 346.3 432.1 336.1C442.3 327.6 442.3 312.4 432.1 303L385.9 256L432.1 208.1C442.3 199.6 442.3 184.4 432.1 175C423.6 165.7 408.4 165.7 399 175L352 222.1L304.1 175C295.6 165.7 280.4 165.7 271 175C261.7 184.4 261.7 199.6 271 208.1V208.1'
+            @touch="onDelete"
         />
-    </todo-hover>    
+
+    </div>    
 </template>
 <script>
 import TodoCheck from '../form/TodoCheck.vue'
 import TodoInput from '../form/TodoInput.vue'
 import TodoButton from '../form/TodoButton.vue'
-import TodoHover from '../form/TodoHover.vue'
+
 export default {
     
     name: 'todo-list-item',
@@ -29,33 +33,42 @@ export default {
         TodoInput,
         TodoButton,
         TodoCheck,
-        TodoHover
+    },
+    data() {
+        return {
+            text: ''
+        }
     },
     props: {
         item: {
             type: Object
         }
     }, 
-    data() {
-        return {
-            isHover: false
-        }
-    },
     methods: {
-        onChange() {
-            // 새로 저장이 됨
+        onChange(emit) {
+            if (typeof emit !== 'string')
+                return
+
+            this.text = emit
         },
-        onHover(emit) {
-            this.isHover = emit
+
+        onDelete() {
+            this.$store.commit('todosPop', this.item.key)
         },
-        onToggle(checked) {
-            this.item.isChecked = checked
-            
+        onReset() {
             this.$store.commit('todosChange', {
-                isChecked: checked,
+                title: this.text,
                 key: this.item.key      
             })
-        }
+        },
+        onToggle(emit) {
+            this.item.isChecked = emit
+            
+            this.$store.commit('todosChange', {
+                isChecked: emit,
+                key: this.item.key      
+            })
+        },
 
     },    
 }

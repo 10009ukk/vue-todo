@@ -1,11 +1,11 @@
 <template lang="">
-    <input
-          :type="type"
-          :placeholder="placeholder"
-          :value="value"
+  <input
+        :type="type"
+        :placeholder="placeholder"
+        :value="value"
 
-          @input="onInput"
-    />
+        @input="onInput"
+  />
 </template>
 <script>
 export default {
@@ -23,11 +23,6 @@ export default {
       type: String,
       default: "",
     },
-  },
-  data() {
-    return {
-      isActive: false,
-    };
   },
   methods: {
     onInput: function ($event) {
