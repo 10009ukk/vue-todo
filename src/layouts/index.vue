@@ -1,5 +1,5 @@
 <template lang="">
-    <div>
+    <div class="layout">
         <slot></slot>
     </div>
 </template>
@@ -8,6 +8,8 @@ export default {
     name: 'index-layout'
 }
 </script>
-<style lang="">
-    
+<style lang="scss">
+    .layout {
+        margin: 125px 0;
+    }
 </style>

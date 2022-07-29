@@ -41,7 +41,7 @@ export default createStore({
         if (todo.key === payload.key) {
           todo = {
             title: payload.title ? payload.title : todo.title,
-            isChecked: payload.isChecked ? payload.isChecked : todo.isChecked,
+            isChecked: payload.isChecked !== undefined ? payload.isChecked : todo.isChecked,
             key: todo.key,
           }
         }
@@ -53,8 +53,8 @@ export default createStore({
     focusAll: function (state, payload) {
       state.focus = {
         title: payload.title ? payload.title : state.focus.title,
-        isChecked: payload.isChecked ? payload.isChecked : state.focus.isChecked,
-        key: state.focus.key,
+        isChecked: payload.isChecked !== undefined ? payload.isChecked : state.focus.isChecked,
+        key: payload.key,
       }
       localStorage.setItem('focus', JSON.stringify([state.focus]))
     },

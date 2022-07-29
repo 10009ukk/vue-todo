@@ -1,22 +1,13 @@
 <template lang="">
-   <button @click="onClick">
-       <svg class='icon' xmlns="http://www.w3.org/2000/svg" :viewBox="viewBox">
-           <path :d="d"/>
-       </svg>
+   <button class='todo-button' @click="onClick">
+       <i :class="icon"></i>
    </button> 
 </template>
 <script>
 export default {
     name: 'todo-button',
     props: {
-        viewBox: {
-            type: String,
-            default: ''
-        },
-        d: {
-            type: String,
-            default: ''
-        }
+        icon: String
     },
     methods: {
         onClick() {
@@ -26,8 +17,19 @@ export default {
 }
 </script>
 <style lang="scss">
-    .icon {
-        height: 10px;
-        width:  10px;
+    .todo-button {
+        border: none;
+        background-color: transparent;
+        padding: 10px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    
+        i {
+            font-size: 15px;
+            color: #757575;
+        }
     }
+    
 </style>

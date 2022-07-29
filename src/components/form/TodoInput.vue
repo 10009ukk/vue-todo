@@ -1,6 +1,10 @@
 <template lang="">
     <form @submit.prevent="onSubmit">
-        <todo-input-item :value='text' @change="onChange"></todo-input-item>
+        <todo-input-item 
+            :value='text'
+            :placeholder="placeholder" 
+            @change="onChange"
+        />
     </form>
 </template>
 
@@ -16,7 +20,12 @@ export default {
         type: {
             type: String,
             default: 'todosPush'
-        }
+        },
+        placeholder: {
+            type: String,
+            default: "",
+        },
+
     },
     data() {
         return {
