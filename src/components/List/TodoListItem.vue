@@ -55,9 +55,7 @@ export default {
             if (typeof emit !== 'string')
                 return
 
-
             this.text = emit
-            console.log(this.text)
         },
 
         onDelete() {
@@ -89,6 +87,7 @@ export default {
 
         height: 20px;
         margin: 5px 0;
+
         .complete {
             text-decoration: line-through;
         }

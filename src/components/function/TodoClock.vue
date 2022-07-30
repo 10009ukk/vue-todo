@@ -1,5 +1,5 @@
 <template lang="">
-    <h3>{{ hour }} : {{ minutes.length === 1 ? `0${minutes}` : minutes }}</h3>
+    <h3>{{ hour.length === 1 ? `0${hour}` : hour }} : {{ minutes.length === 1 ? `0${minutes}` : minutes }}</h3>
 </template>
 <script>
 export default {
@@ -7,7 +7,7 @@ export default {
     data() {
         return {
             hour: '',
-            minutes : '1'
+            minutes : ''
         }
     },
     created() {
@@ -16,8 +16,8 @@ export default {
     methods: {
         getTime() {
             const date = new Date();
-            this.hour = date.getHours()
-            this.minutes = date.getMinutes()
+            this.hour = String(date.getHours())
+            this.minutes = String(date.getMinutes())
 
             setInterval(this.getTime, 1000);
         }

@@ -1,5 +1,5 @@
 <template lang="">
-    <h5>{{ city }} : {{ weather }}</h5>
+    <h5>{{ city }} / {{ weather }}</h5>
 </template>
 <script>
 const API_KEY = "e676665aa6d66d723ca429279cfda04e";
@@ -24,7 +24,7 @@ export default {
               .then((response) => response.json())
               .then((data) => {
                 this.city = data.name;
-                this.weather = `${data.weather[0].main} / ${data.main.temp}`;
+                this.weather = `${data.weather[0].main} ${data.main.temp}`;
               })
               .catch(console.log)
               

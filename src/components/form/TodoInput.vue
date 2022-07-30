@@ -44,8 +44,6 @@ export default {
                 return
             }
             
-            // type = 'todosPush'
-            console.log(this.type)
             this.$store.commit(this.type, {
                 title: this.text,
                 isChecked: false,  

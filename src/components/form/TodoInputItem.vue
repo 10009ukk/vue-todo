@@ -34,18 +34,14 @@ export default {
 </script>
 <style lang="scss">
   .input-item {
-    font-size:14px;
-    padding: 5px 5px 5px 5px;
-    width:300px;
-    border:none;
+    font-size: 14px;
+    padding: 5px;
+    width: 300px;
+    border: none;
 
     &:focus {
       outline: none;
       border: none;
-    }
-
-    &.line {
-      border-bottom: 1px solid #757575;             
     }
   }
 </style>
