@@ -1,6 +1,6 @@
 <template lang="">
     <div class="todo-list-item">
-        <todo-check  
+        <todo-check-button  
             @toggle='onToggle' 
             :checked="item.isChecked"
         />
@@ -13,15 +13,15 @@
             @keyup.enter="onReset"
         />
         <todo-button 
-            icon="fa-solid fa-delete-left"
-            @touch="onDelete"
+            path="fa-solid fa-delete-left"
+            @click="onDelete"
         />
     </div>    
 </template>
 <script>
-import TodoCheck from '../button/TodoCheck.vue'
+import TodoCheckButton from '../button/TodoCheckButton.vue'
 import TodoButton from '../button/TodoButton.vue'
-import TodoInputItem from '../form/TodoInputItem.vue'
+import TodoInputItem from '../input/TodoInputItem.vue'
 
 
 export default {
@@ -30,7 +30,7 @@ export default {
     components: {        
         TodoInputItem,
         TodoButton,
-        TodoCheck,
+        TodoCheckButton,
     },
     data() {
         return {

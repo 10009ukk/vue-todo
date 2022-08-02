@@ -1,15 +1,10 @@
 <template lang="">
     <index-layout>
-        <div class="todo-header">
-            <todo-clock />     
-            <todo-weather />
-        </div>
-
         <div>
-            <template v-if='Object.keys(item).length === 0'>
+            <template v-if='focus'>
                 <h1>What is main your focus for today?</h1>
                 <todo-input 
-                    type='focusAll'
+                    push='focusChange'
                     placeholder="hahaha..."
                 />
             </template>
@@ -18,7 +13,7 @@
                 <todo-list-item 
                     :item="item"
                     pop="focusPop"
-                    change="focusAll"
+                    change="focusChange"
                 />    
             </template>
         </div>
@@ -36,11 +31,10 @@
 
 <script>
 import IndexLayout from '@/layouts/index.vue'
-import TodoInput from '@/components/form/TodoInput.vue'
+import TodoInput from '@/components/input/TodoInput.vue'
 import TodoList from '@/components/list/TodoList.vue'
 import TodoListItem from '@/components/list/TodoListItem.vue'
-import TodoClock from '@/components/function/TodoClock.vue'
-import TodoWeather from '@/components/function/TodoWeather.vue'
+
 export default {
     name: 'todo-view',
     components: {
@@ -48,8 +42,6 @@ export default {
         TodoInput,
         TodoList,
         TodoListItem,
-        TodoClock,
-        TodoWeather
     },
     computed: {
         items() {
@@ -57,6 +49,9 @@ export default {
         },
         item() {
             return this.$store.getters.focusGet
+        },
+        focus() {
+            return Object.keys(this.item).length === 0
         }
     },
     methods: {
@@ -66,12 +61,6 @@ export default {
 }
 </script>
 <style lang="scss">
-    .todo-header {
-        margin: 30px 0;
-        & > * {
-            margin: 0;
-        }
-     }
 
     .todo-footer {
         width: 360px;

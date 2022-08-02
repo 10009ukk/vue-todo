@@ -2,17 +2,18 @@
     <input
         type="checkbox"
         :checked="checked"
-        @click="onToggle"
+
+        @click="onClick"
     />
 </template>
 <script>
 export default {
-    name: 'todo-check',
+    name: 'todo-check-button',
     props: {
         checked : Boolean,
     },
     methods: {
-        onToggle($event) {
+        onClick($event) {
             this.$emit('toggle', $event.target.checked)
         }
     },

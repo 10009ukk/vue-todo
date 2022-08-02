@@ -3,13 +3,14 @@
         <todo-input-item 
             :value='text'
             :placeholder="placeholder" 
+            
             @change="onChange"
         />
     </form>
 </template>
 
 <script>
-import TodoInputItem from '@/components/form/TodoInputItem.vue'
+import TodoInputItem from '@/components/input/TodoInputItem.vue'
 
 export default {
     name: 'todo-submit',
@@ -17,15 +18,14 @@ export default {
         TodoInputItem,
     },
     props: {
-        type: {
-            type: String,
-            default: 'todosPush'
-        },
         placeholder: {
             type: String,
             default: "",
         },
-
+        push: {
+            type: String,
+            default: 'todosPush'
+        },
     },
     data() {
         return {
@@ -44,8 +44,9 @@ export default {
                 return
             }
             
-            this.$store.commit(this.type, {
+            this.$store.commit(this.push, {
                 title: this.text,
+                isToday: this.today,
                 isChecked: false,  
                 key: new Date(),
             })

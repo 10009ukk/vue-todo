@@ -2,15 +2,12 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    // 2개 저장, today, inbox
-    // ex) type: 'today'
-    type: 'today',
     focus: {},
     todos: []
   },
   getters: {
     todosGet(state) {
-      const items = JSON.parse(localStorage.getItem(state.type))
+      const items = JSON.parse(localStorage.getItem('todos'))
       if (items != null) {
         state.todos = items[0]
       }
@@ -28,13 +25,13 @@ export default createStore({
   mutations: {
     todosPush: function (state, payload) {
       state.todos.push(payload)
-      localStorage.setItem(state.type, JSON.stringify([state.todos]))
+      localStorage.setItem('todos', JSON.stringify([state.todos]))
     },
     todosPop: function (state, payload) {
       state.todos = state.todos.filter(todo => {
         return todo.key !== payload.key
       })
-      localStorage.setItem(state.type, JSON.stringify([state.todos]))
+      localStorage.setItem('todos', JSON.stringify([state.todos]))
     },
     todosChange: function (state, payload) {
       state.todos = state.todos.map(todo => {
@@ -42,15 +39,15 @@ export default createStore({
           todo = {
             title: payload.title ? payload.title : todo.title,
             isChecked: payload.isChecked !== undefined ? payload.isChecked : todo.isChecked,
-            key: todo.key,
+            key: payload.key,
           }
         }
         return todo
       })
-      localStorage.setItem(state.type, JSON.stringify([state.todos]))
+      localStorage.setItem('todos', JSON.stringify([state.todos]))
     },
 
-    focusAll: function (state, payload) {
+    focusChange: function (state, payload) {   
       state.focus = {
         title: payload.title ? payload.title : state.focus.title,
         isChecked: payload.isChecked !== undefined ? payload.isChecked : state.focus.isChecked,

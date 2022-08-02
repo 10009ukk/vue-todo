@@ -1,17 +1,17 @@
 <template lang="">
    <button class='todo-button' @click="onClick">
-       <i :class="icon"></i>
+       <i :class="path"></i>
    </button> 
 </template>
 <script>
 export default {
     name: 'todo-button',
     props: {
-        icon: String
+        path: String
     },
     methods: {
         onClick() {
-            this.$emit('touch')
+            this.$emit('click')
         }
     },
 }
