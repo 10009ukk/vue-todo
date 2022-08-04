@@ -46,7 +46,6 @@ export default {
             
             this.$store.commit(this.push, {
                 title: this.text,
-                isToday: this.today,
                 isChecked: false,  
                 key: new Date(),
             })

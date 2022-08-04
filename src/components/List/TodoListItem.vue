@@ -14,7 +14,7 @@
         />
         <todo-button 
             path="fa-solid fa-delete-left"
-            @click="onDelete"
+            @hit="onDelete"
         />
     </div>    
 </template>

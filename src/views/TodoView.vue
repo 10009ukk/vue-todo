@@ -18,7 +18,15 @@
             </template>
         </div>
 
-        <div class="todo-footer">
+        <div class="todo-lists">
+            <div class="todo-type">
+                <h5>{{ type }}</h5>
+                <todo-button
+                   path="fa-solid fa-rotate" 
+                   @hit="typeChange"
+                />
+            </div>
+          
             <todo-list 
                 :items="items" />
             <todo-input 
@@ -34,6 +42,9 @@ import IndexLayout from '@/layouts/index.vue'
 import TodoInput from '@/components/input/TodoInput.vue'
 import TodoList from '@/components/list/TodoList.vue'
 import TodoListItem from '@/components/list/TodoListItem.vue'
+import TodoButton from '@/components/button/TodoButton.vue'
+
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'todo-view',
@@ -42,27 +53,30 @@ export default {
         TodoInput,
         TodoList,
         TodoListItem,
+        TodoButton,
     },
     computed: {
-        items() {
-            return this.$store.getters.todosGet
-        },
-        item() {
-            return this.$store.getters.focusGet
-        },
+        ...mapGetters({
+            items: 'todosGet',
+            item: 'focusGet',
+            type: 'typeGet'
+        }),
+
         focus() {
             return Object.keys(this.item).length === 0
         }
     },
     methods: {
-       
+       typeChange() {
+            this.$store.commit('typeChange')
+       }
     },
 
 }
 </script>
 <style lang="scss">
 
-    .todo-footer {
+    .todo-lists {
         width: 360px;
         padding: 20px;
         margin: 30px auto;
@@ -70,6 +84,15 @@ export default {
         text-align: center;
         box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
         
+        .todo-type {
+            display: flex;
+            align-items: center;
+
+            h5 {
+                text-transform: uppercase;
+                margin: 10px 0;
+            }
+        }
         .todo-submit {
             margin-left: -60px;
         }

@@ -1,5 +1,5 @@
 <template lang="">
-   <button class='todo-button' @click="onClick">
+   <button class='todo-button' @click="this.$emit('hit')">
        <i :class="path"></i>
    </button> 
 </template>
@@ -8,11 +8,6 @@ export default {
     name: 'todo-button',
     props: {
         path: String
-    },
-    methods: {
-        onClick() {
-            this.$emit('click')
-        }
     },
 }
 </script>
