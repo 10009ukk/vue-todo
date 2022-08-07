@@ -10,11 +10,14 @@
             :value="item.title"
             
             @change='onChange' 
-            @keyup.enter="onReset"
+            @keyup.enter="onUpdate({
+                title: text,
+                key: item.key
+            })"
         />
         <todo-button 
             path="fa-solid fa-delete-left"
-            @hit="onDelete"
+            @hit="this.$store.commit(remove, item)"
         />
     </div>    
 </template>
@@ -41,13 +44,13 @@ export default {
         item: {
             type: Object
         },
-        pop: {
+        remove: {
             type: String,
-            default: 'todosPop'
+            default: 'removeTodos'
         },
-        change: {
+        update: {
             type: String,
-            default: 'todosChange'
+            default: 'updateTodos'
         }
     }, 
     methods: {
@@ -57,20 +60,17 @@ export default {
 
             this.text = emit
         },
-
-        onDelete() {
-            this.$store.commit(this.pop, this.item)
-        },
-        onReset() {
-            this.$store.commit(this.change, {
-                title: this.text,
-                key: this.item.key      
+        onUpdate({ title, isChecked, key }) {
+            this.$store.commit(this.update, {
+                title,
+                isChecked,
+                key 
             })
         },
         onToggle(emit) {
             this.item.isChecked = emit
             
-            this.$store.commit(this.change, {
+            this.onUpdate({
                 isChecked: emit,
                 key: this.item.key      
             })

@@ -22,9 +22,9 @@ export default {
             type: String,
             default: "",
         },
-        push: {
+        add: {
             type: String,
-            default: 'todosPush'
+            default: 'addTodos'
         },
     },
     data() {
@@ -41,10 +41,11 @@ export default {
         },
         onSubmit() {
             if (!this.text) {
+                alert('텍스트를 입력하세요...')
                 return
             }
             
-            this.$store.commit(this.push, {
+            this.$store.commit(this.add, {
                 title: this.text,
                 isChecked: false,  
                 key: new Date(),

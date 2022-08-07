@@ -1,10 +1,10 @@
 <template lang="">
     <index-layout>
         <div>
-            <template v-if='focus'>
+            <template v-if='isFocus'>
                 <h1>What is main your focus for today?</h1>
                 <todo-input 
-                    push='focusChange'
+                    add='updateFocus'
                     placeholder="hahaha..."
                 />
             </template>
@@ -12,8 +12,8 @@
                 <h5>TODAY</h5>
                 <todo-list-item 
                     :item="item"
-                    pop="focusPop"
-                    change="focusChange"
+                    remove="removeFocus"
+                    update="updateFocus"
                 />    
             </template>
         </div>
@@ -23,7 +23,7 @@
                 <h5>{{ type }}</h5>
                 <todo-button
                    path="fa-solid fa-rotate" 
-                   @hit="typeChange"
+                   @hit="this.$store.commit('updateType')"
                 />
             </div>
           
@@ -57,21 +57,15 @@ export default {
     },
     computed: {
         ...mapGetters({
-            items: 'todosGet',
-            item: 'focusGet',
-            type: 'typeGet'
+            items: 'getTodos',
+            item: 'getFocus',
+            type: 'getType'
         }),
 
-        focus() {
+        isFocus() {
             return Object.keys(this.item).length === 0
         }
     },
-    methods: {
-       typeChange() {
-            this.$store.commit('typeChange')
-       }
-    },
-
 }
 </script>
 <style lang="scss">

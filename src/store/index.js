@@ -8,18 +8,17 @@ export default createStore({
     focus: {},
   },
   getters: {
-    typeGet(state) {
+    getType(state) {
       return state.type
-      
     },
-    todosGet(state) {
+    getTodos(state) {
       const items = JSON.parse(localStorage.getItem(state.type))
       if (items != null) {
         state.todos = items[0]
       }
       return state.todos
     },
-    focusGet(state) {
+    getFocus(state) {
       const items = JSON.parse(localStorage.getItem('focus'))
       if (items != null) {
         state.focus = items[0]
@@ -28,49 +27,52 @@ export default createStore({
     },
   },
   mutations: {
-    typeChange(state) {
+    updateType(state) {
       state.todos.splice(0)
       state.type = state.type === 'today' ? 'inbox' : 'today'
     },
-    todosPush: function (state, payload) {
+
+    addTodos: function (state, payload) {
       state.todos.push(payload)
       localStorage.setItem(state.type, JSON.stringify([state.todos]))
     },
-    todosPop: function (state, payload) {
+    removeTodos: function (state, payload) {
       state.todos = state.todos.filter(todo => {
         return todo.key !== payload.key
       })
       localStorage.setItem(state.type, JSON.stringify([state.todos]))
     },
-    todosChange: function (state, payload) {
+    updateTodos: function (state, { title, isChecked, key}) {
       state.todos = state.todos.map(todo => {
-        if (todo.key === payload.key) {
+        if (todo.key === key) {
           todo = {
-            title: payload.title ? payload.title : todo.title,
-            isChecked: payload.isChecked !== undefined ? payload.isChecked : todo.isChecked,
-            key: payload.key,
+            title: title || todo.title,
+            isChecked: isChecked || todo.isChecked,
+            key: key,
           }
         }
         return todo
       })
       localStorage.setItem(state.type, JSON.stringify([state.todos]))
     },
-    focusChange: function (state, payload) { 
+
+    updateFocus: function (state, { title, isChecked, key }) { 
       state.focus = {
-        title: payload.title ? payload.title : state.focus.title,
-        isChecked: payload.isChecked !== undefined ? payload.isChecked : state.focus.isChecked,
-        key: payload.key,
+        title: title || state.focus.title,
+        isChecked: isChecked || state.focus.isChecked,
+        key: key,
       }
       localStorage.setItem('focus', JSON.stringify([state.focus]))
     },
-    focusPop: function (state) {
-      state.focus = {}
-      localStorage.setItem('focus', JSON.stringify([state.focus]))
+    removeFocus: function (state) {
+      state.focus = new Object
+      localStorage.removeItem('focus')
     },
 
     
   },
   actions: {
+
   },
   modules: {
   }
