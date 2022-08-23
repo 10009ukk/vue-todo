@@ -61,7 +61,6 @@ export default {
             item: 'getFocus',
             type: 'getType'
         }),
-
         isFocus() {
             return Object.keys(this.item).length === 0
         }

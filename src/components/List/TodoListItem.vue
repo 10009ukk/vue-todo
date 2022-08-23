@@ -1,5 +1,8 @@
 <template lang="">
-    {{ item.key }}
+    <div>
+        <h5 :class="{ red: isDiff }">{{ item.key }}</h5>
+        <button @click="onDelay">미루기</button>
+    </div>
     <div class="todo-list-item">
         <todo-check-button  
             @toggle='onToggle' 
@@ -7,8 +10,11 @@
         />
         <todo-input-item 
             class="input"
-            :class='{ complete: item.isChecked }' 
-            :value="item.title"
+            :class='{ 
+                complete: item.isChecked,
+                red: isDiff            
+            }' 
+            :value="`${isDiff ? '💣 ' : ''}${item.title}`"
             
             @change='onChange' 
             @keyup.enter="onUpdate({
@@ -27,7 +33,7 @@ import TodoCheckButton from '../button/TodoCheckButton.vue'
 import TodoButton from '../button/TodoButton.vue'
 import TodoInputItem from '../input/TodoInputItem.vue'
 
-import { dateDiff } from '@/date-fns'
+import { dateDiff, dateAdd } from '@/date-fns'
 
 export default {
     
@@ -52,17 +58,24 @@ export default {
     }, 
     data() {
         return {
-            text: ''
+            text: '',
         }
     },
-    created() {
-        const { title, key } = this.item
+    computed: {
+        isDiff() {
+            return dateDiff(this.item.key) < 0
+        }
+    },
 
-        if (title.indexOf('💣') === -1 && dateDiff(key) >= 1) {
-            this.item.title = '💣' + title
-        }
-    },
     methods: {
+        onDelay() {
+            const { key } = this.item
+            this.item.key = dateAdd(key, 1)
+            this.onUpdate({
+                key,
+            })
+        },
+
         onChange(emit) {
             if (typeof emit !== 'string')
                 return
@@ -89,6 +102,11 @@ export default {
 }
 </script>
 <style lang="scss">
+    .red {
+        color: red;
+        font-weight: bold;
+    }
+
     .todo-list-item {
         display: flex;  
         justify-content: center;

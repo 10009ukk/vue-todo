@@ -11,7 +11,7 @@
 
 <script>
 import TodoInputItem from '@/components/input/TodoInputItem.vue'
-import { dateFns } from '@/date-fns'
+import { dateFns, dateAdd } from '@/date-fns'
 export default {
     name: 'todo-submit',
     components: {
@@ -48,7 +48,7 @@ export default {
             this.$store.commit(this.add, {
                 title: this.text,
                 isChecked: false,  
-                key: dateFns(),
+                key: dateAdd(dateFns(), 2),
             })
 
             this.text = ''
