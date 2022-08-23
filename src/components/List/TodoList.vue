@@ -6,7 +6,7 @@
     />
 </template>
 <script>
-import TodoListItem from './TodoListItem.vue'
+import TodoListItem from '@/components/list/TodoListItem.vue'
 
 export default {
     name: 'todo-list',

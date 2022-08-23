@@ -1,13 +1,14 @@
 <template lang="">
-    <h3>{{ hour.length === 1 ? `0${hour}` : hour }} : {{ minutes.length === 1 ? `0${minutes}` : minutes }}</h3>
+    <h3>{{ time }}</h3>
 </template>
 <script>
+import { dateFns } from '@/date-fns.js'
+
 export default {
     name: 'todo-clock',
     data() {
         return {
-            hour: '',
-            minutes : ''
+            time: '',
         }
     },
     created() {
@@ -15,10 +16,7 @@ export default {
     },
     methods: {
         getTime() {
-            const date = new Date();
-            this.hour = String(date.getHours())
-            this.minutes = String(date.getMinutes())
-
+            this.time = dateFns().slice(11, 16)
             setInterval(this.getTime, 1000);
         }
     },

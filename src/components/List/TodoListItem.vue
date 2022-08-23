@@ -1,4 +1,5 @@
 <template lang="">
+    {{ item.key }}
     <div class="todo-list-item">
         <todo-check-button  
             @toggle='onToggle' 
@@ -26,6 +27,7 @@ import TodoCheckButton from '../button/TodoCheckButton.vue'
 import TodoButton from '../button/TodoButton.vue'
 import TodoInputItem from '../input/TodoInputItem.vue'
 
+import { dateDiff } from '@/date-fns'
 
 export default {
     
@@ -34,11 +36,6 @@ export default {
         TodoInputItem,
         TodoButton,
         TodoCheckButton,
-    },
-    data() {
-        return {
-            text: ''
-        }
     },
     props: {
         item: {
@@ -53,6 +50,18 @@ export default {
             default: 'updateTodos'
         }
     }, 
+    data() {
+        return {
+            text: ''
+        }
+    },
+    created() {
+        const { title, key } = this.item
+
+        if (title.indexOf('💣') === -1 && dateDiff(key) >= 1) {
+            this.item.title = '💣' + title
+        }
+    },
     methods: {
         onChange(emit) {
             if (typeof emit !== 'string')
